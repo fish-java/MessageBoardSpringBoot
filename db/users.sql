@@ -18,6 +18,9 @@ create table
   ) engine=InnoDB default charset=utf8;
 desc users;
 
+ALTER TABLE users
+  Change phone phone_number int;
+
 insert into
   users(user_name, password, token)
   values(
@@ -68,3 +71,21 @@ EXECUTE testMutipStatement2 USING @a2, @b2, @c2;
 
 
 delete from users where user_name = 'Test2';
+
+
+
+SET @a1 = 'Test2222';
+SET @b1 = '132131';
+SET @c1 = 'bbc';
+
+PREPARE testMutipStatement2
+  FROM 'insert into users(
+          user_name, password, token)
+        VALUE (?, ?, ?)';
+
+# 设置三个变量，然后来填充它
+SET @a1 = 'Test2';
+SET @b2 = '132131';
+# SET @c2 = 'bbc';
+
+EXECUTE testMutipStatement1 USING @a1, @b1;

@@ -1,7 +1,6 @@
 package com.github.zhang89.messageboardsbjdbc.controller;
 
 import com.github.zhang89.messageboardsbjdbc.common.ConnectionUtil;
-import com.github.zhang89.messageboardsbjdbc.dao.MessagesModel;
 import com.github.zhang89.messageboardsbjdbc.dao.imp.MessageDaoImpJDBC;
 import com.github.zhang89.messageboardsbjdbc.domain.Message;
 import org.json.simple.JSONArray;
@@ -14,26 +13,33 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 @RestController("/messages")
 public class Messages {
-    @GetMapping
+    @GetMapping("/messages")
     public ResponseEntity<String> getMessagesList() throws SQLException{
         HttpHeaders responseHeaders = new HttpHeaders();
-
-        Statement sm = ConnectionUtil.getStatement();
-        if(sm == null){
-            return new ResponseEntity<String>("error in connected to sql", responseHeaders, HttpStatus.FORBIDDEN);
-        }
-
-        String sql = "select id, content, user_name, create_datetime, update_datetime from messages limit 10;";
-        ResultSet rs = sm.executeQuery(sql);
-        String body = MessagesModel.getMessagesJSONArrayStringFromResultSet(rs);
-
-        ConnectionUtil.releaseStatement(sm);
         responseHeaders.set("Content-Type", "application/json");
 
-        return new ResponseEntity<String>(body, responseHeaders, HttpStatus.OK);
+        System.out.println("Handler request from getMessagesList");
+        List<Message> messages = new MessageDaoImpJDBC().getMessages();
+
+        if(messages == null){
+            return new ResponseEntity<String>("error", responseHeaders, HttpStatus.NO_CONTENT);
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < messages.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", messages.get(i).getId());
+            jsonObject.put("content", messages.get(i).getContent());
+            jsonObject.put("user_name", messages.get(i).getUser_name());
+            jsonObject.put("update_time", messages.get(i).getUpdate_time().toString());
+            jsonArray.add(jsonObject);
+        }
+
+        return new ResponseEntity<String>(jsonArray.toJSONString(), responseHeaders, HttpStatus.OK);
     }
     @PostMapping()
     public ResponseEntity<String> Message(

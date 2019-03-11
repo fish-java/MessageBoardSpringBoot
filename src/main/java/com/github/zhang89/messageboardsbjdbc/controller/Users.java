@@ -1,21 +1,17 @@
 package com.github.zhang89.messageboardsbjdbc.controller;
 
-import com.github.zhang89.messageboardsbjdbc.common.ConnectionUtil;
-import com.github.zhang89.messageboardsbjdbc.domain.Message;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.zhang89.messageboardsbjdbc.domain.User;
+import com.github.zhang89.messageboardsbjdbc.dao.imp.UserDaoImpJDBC;
+import com.github.zhang89.messageboardsbjdbc.util.Mapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-@RestController("/user")
+@RestController("/users")
 public class Users {
 //    @PostMapping("/users")
 //    public ResponseEntity<String> createUser(
@@ -53,6 +49,7 @@ public class Users {
 //        return new ResponseEntity<String>("sdf",resHeaders,HttpStatus.CREATED);
 //    }
 
+    @PostMapping("/users")
     public ResponseEntity<String> createUser(
             @RequestHeader(value = "username") String user_name,
             @RequestHeader(value = "password") String password) throws SQLException {
@@ -61,4 +58,23 @@ public class Users {
         //Users newUser = new Users()
         return new ResponseEntity<String>("sdf",resHeaders,HttpStatus.CREATED);
     }
+
+    @GetMapping("/users/{username}")
+    public ResponseEntity<String> getUser(@PathVariable String username){
+        HttpHeaders resHeaders = new HttpHeaders();
+
+        System.out.println("handler request from getUser");
+        User user = new UserDaoImpJDBC().getUserByName(username);
+        if(user == null){
+            return new ResponseEntity<String>("error",resHeaders,HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            String resJSONString = Mapper.getJSONStringFromObj(user);
+            return new ResponseEntity<String>(resJSONString, resHeaders, HttpStatus.OK);
+        } catch (JsonProcessingException e){
+            return new ResponseEntity<String>("error",resHeaders,HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

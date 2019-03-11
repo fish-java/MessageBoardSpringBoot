@@ -22,10 +22,15 @@ select * from messages;
 select id,content,user_name,
        create_datetime,
        update_datetime
-from messages limit 10;
+from messages limit 10 offset 2;
 
 insert into
   messages(content, user_name)
   values (
     'hello world, this is first message',
     'Jon');
+
+select
+  id,content,user_name,update_datetime
+from messages
+order by update_datetime limit 10 offset 0;
