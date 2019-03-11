@@ -1,13 +1,16 @@
 package com.github.zhang89.messageboardsbjdbc.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.zhang89.messageboardsbjdbc.common.ConnectionUtil;
 import com.github.zhang89.messageboardsbjdbc.dao.imp.MessageDaoImpJDBC;
 import com.github.zhang89.messageboardsbjdbc.domain.Message;
+import com.github.zhang89.messageboardsbjdbc.util.Mapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.ResultSet;
@@ -15,14 +18,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-@RestController("/messages")
+@Controller
+@RequestMapping("/messages")
 public class Messages {
-    @GetMapping("/messages")
+    @GetMapping()
     public ResponseEntity<String> getMessagesList() throws SQLException{
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type", "application/json");
 
-        System.out.println("Handler request from getMessagesList");
+        HttpHeaders responseHeaders = new HttpHeaders();
         List<Message> messages = new MessageDaoImpJDBC().getMessages();
 
         if(messages == null){
@@ -31,15 +33,19 @@ public class Messages {
 
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < messages.size(); i++) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", messages.get(i).getId());
-            jsonObject.put("content", messages.get(i).getContent());
-            jsonObject.put("user_name", messages.get(i).getUser_name());
-            jsonObject.put("update_time", messages.get(i).getUpdate_time().toString());
-            jsonArray.add(jsonObject);
+            jsonArray.add(messages.get(i));
         }
 
-        return new ResponseEntity<String>(jsonArray.toJSONString(), responseHeaders, HttpStatus.OK);
+        String res;
+        try {
+            res = Mapper.getJSONStringFromObj(jsonArray);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>("error",responseHeaders,HttpStatus.FORBIDDEN);
+        }
+        responseHeaders.set("Content-Type", "application/json");
+        return new ResponseEntity<String>(res, responseHeaders, HttpStatus.OK);
+
     }
     @PostMapping()
     public ResponseEntity<String> Message(
