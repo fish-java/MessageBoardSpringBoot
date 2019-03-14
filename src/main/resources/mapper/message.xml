@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.fish56.messageboard.entity.Message">
+
+    <resultMap id="forMessage" type="Message">
+        <result column="create_datetime" property="createDatetime"/>
+        <result column="update_datetime" property="updateDatetime"/>
+    </resultMap>
+
+    <select id="selectOneMessage" parameterType="Message" resultMap="forMessage">
+        select * from messages where id = #{ id };
+    </select>
+
+    <select id="selectManyMessages" parameterType="Message" resultMap="forMessage">
+        select * from messages
+        <where>
+            true
+            <if test="username != null">
+                and username = #{username}
+            </if>
+            <if test="updateDatetime != null">
+                <![CDATA[
+                 AND update_datetime < #{updateDatetime}
+              ]]>
+            </if>
+            <if test="createDatetime != null">
+                <![CDATA[
+                 AND create_datetime < #{createDatetime}
+              ]]>
+            </if>
+            limit 20;
+        </where>
+    </select>
+    <insert id="insertOneMessage" parameterType="Message">
+        insert into messages(username, content)
+          values (#{username}, #{content})
+    </insert>
+
+    <update id="updateOneMessage" parameterType="Message">
+        update messages
+        <set>
+            <if test="content != null">
+                content = #{content},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOneMessage" parameterType="Message">
+        delete from messages where id = #{ id };
+    </delete>
+
+</mapper>

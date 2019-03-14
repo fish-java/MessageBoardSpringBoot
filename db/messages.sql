@@ -1,14 +1,14 @@
 drop table if exists messages;
 create table
   messages(
-    # determine message when we update it
+    # identify a message
     id int unsigned primary key auto_increment,
 
     # the content of each message
     content varchar(500) not null,
 
     # the author name
-    user_name char(20) not null,
+    username char(20) not null,
 
     create_datetime datetime
       default current_timestamp not null,
@@ -16,6 +16,9 @@ create table
       default current_timestamp not null
       on update current_timestamp
   )engine = InnoDB default charset = utf8;
+
+ALTER TABLE messages
+  Change user_name username char(20);
 
 select * from messages;
 

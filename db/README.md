@@ -1,21 +1,33 @@
-# 数据库设计
+# Tables of Database
+before we begin to developer our webapp, 
+we have to design our database first.
 
-- messages
-  - id
-  - content varchar(300)
-  - user_id int
-  
-  - create_datetime
-  - update_datetime
-  
-- users
+This is our tables.
 
-  - name primary key varchar(10)
-  - password varchar(20)
-  
-users.name and messages.user_name
-这样是否合理？
-我觉得两者还是相同为好，虽然对users表来说
-前缀是多余的
+## Messages
+we need a table to store messages, each 
+message should has follow fields:
 
-互联网企业场景一般不用外键
+- `messages`: table name.
+  - `id`: we should give each message a
+    unique id.
+  - `content`: the content of a message.
+    500 character is enough to store a message.
+  - `user_name`: refer to user who create
+    this message
+    
+  - `create_datetime`: store the datetime
+    when this message is create.
+  - `update_datetime`: last modify datetime.
+  
+## Users
+- `users`: to store user information.
+
+  - `user_name` user's name 
+  - `password`
+  - `token`
+  
+## SQL
+Also, I add some SQL you may use in future.
+
+`user_name`? because we what this to be more clear.

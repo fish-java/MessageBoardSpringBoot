@@ -8,10 +8,9 @@
         <version>2.1.3.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.github.zhang89</groupId>
-    <artifactId>message-board-sb-jdbc</artifactId>
+    <groupId>com.github.fish56</groupId>
+    <artifactId>message-board</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>message-board-sb-jdbc</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -38,6 +37,16 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.15</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5.3</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl -->
         <dependency>

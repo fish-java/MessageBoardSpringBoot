@@ -1,92 +1,52 @@
-# RESTful API
-basic path for all request
-```
-/api
-```
-this is the basic path for all request
-不需要的，这样写局限性比较大，就用
-二级域名吧
+# REST API
+This is a documentation of REST API for our message
+board.
 
-## messages
+You should read this before you use it.
 
-### list messages
-list all messages
+When you try to post or edit a message, you have to 
+add a authorization token on request header.
 
+Such as
 ```
-GET /messages
-```
-```
-Status: 200 OK
-```
-```json
-[
-  {
-    "id": 2,
-    "content": "first message",
-    "user_name": "Jack",
-    "create_datetime": "2019-03-11 08:52:42",
-    "update_datetime": "2019-03-11 08:52:42"
-  }
-]
+Authorization: bearer sdfewsadfewasfe
 ```
 
+If you don't provide a validate token, you will 
+get a `403 Forbidden`.
 
-## users
-### create a user
-Request
-```
-POST /users
-```
-Request Headers
-```
-user_name: Jack
-password: 123456
-```
-Response when create success
-```
-Status: 200 OK
-```
-```json
-{
-  "user_name": "Jack",
-  "token": "acsewdsf"
-}
-```
-user_name required
-password_required
+If you don't have a token, you should generate a
+to form [here](./users.md).
 
-404 when failed
+
+## Documentation style
+
+-----
+
+# Title
+- content1
+- content2
+
+## Content1 detail
+_Additional information about this API call._
+
+### URL
+_The URL Structure (path only, no root url)_
+
+### QueryString
+_some params set on url_
+
+### Header
+_request headers structure_
+
+### Body
+_request body structure_
+
+### Response
 ```
-Status: 200 OK
+Response Status
 ```
-```json
-{
-  "user_name": "Jack",
-  "token": "acsewdsf"
-}
 ```
-到底是user_name 还是 username?
-一个是习惯的创建用户的方法
-一个是数据库的字段
-username 把，辛苦一下后端就行了
-### get token
-Request
-```
-GET /user/token
-```
-Request Headers
-```
-username: Jack
-password: 123456
-```
-Response
-```
-Status: 200 OK
-```
-```json
-{
-  "username": "Jack",
-  "token": "acsewdsf"
-}
+Response body
 ```
 
