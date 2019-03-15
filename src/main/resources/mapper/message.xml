@@ -31,7 +31,7 @@
                  AND create_datetime < #{createDatetime}
               ]]>
             </if>
-            limit 20;
+            order by update_datetime desc limit 20;
         </where>
     </select>
     <insert id="insertOneMessage" parameterType="Message">
