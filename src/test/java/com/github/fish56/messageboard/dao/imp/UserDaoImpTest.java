@@ -3,13 +3,10 @@ package com.github.fish56.messageboard.dao.imp;
 import com.github.fish56.messageboard.entity.User;
 import com.github.fish56.messageboard.utils.Printer;
 import com.github.fish56.messageboard.utils.RandomString;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class UserDaoImpTest {
 

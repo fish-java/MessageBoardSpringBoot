@@ -2,6 +2,8 @@ package com.github.fish56.messageboard.controller;
 
 import com.github.fish56.messageboard.dao.imp.MessageDaoImp;
 import com.github.fish56.messageboard.entity.Message;
+import com.github.fish56.messageboard.entity.User;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,7 @@ import java.util.List;
 @RequestMapping("/messages")
 public class Messages {
     @GetMapping()
-    public List getMessagesList(){
+    public List getMessagesList(@RequestAttribute("VerifiedUsername") User user){
         List<Message> messages = MessageDaoImp.getInstance().selectMany();
         return messages;
     }
@@ -23,6 +25,7 @@ public class Messages {
             @RequestHeader(value = "username") String username) {
         Message message = new Message();
         message.setUsername(username);
+        content = StringEscapeUtils.escapeHtml4(content);
         message.setContent(content);
         boolean hasInsert = MessageDaoImp.getInstance().insertOne(message);
         HashMap<String ,String> res = new HashMap();

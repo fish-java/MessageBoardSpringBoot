@@ -32,7 +32,6 @@ public class SqlSessionFactoryUtil {
             }catch (Exception e){
                 e.printStackTrace();
             }
-
         }
     }
 }
