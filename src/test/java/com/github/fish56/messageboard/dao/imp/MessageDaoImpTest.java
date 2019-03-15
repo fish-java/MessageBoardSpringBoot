@@ -4,13 +4,15 @@ import com.github.fish56.messageboard.entity.Message;
 import com.github.fish56.messageboard.utils.Printer;
 import com.github.fish56.messageboard.utils.RandomString;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
 
 public class MessageDaoImpTest {
-    @Test
-    public void insertOne() {
+    // ensure there have one message at least
+    @BeforeClass
+    public static void insertOne() {
         Message Message = new Message();
         Message.setContent("Hello world, this is from Java");
         Message.setUsername("Zhang");
@@ -21,7 +23,7 @@ public class MessageDaoImpTest {
     @Test
     public void updateOne() {
         Message Message = new Message();
-        Message.setId(2);
+        Message.setId(1);
         Message.setContent("Change by Java");
         boolean res = MessageDaoImp.getInstance().updateOne(Message);
         Assert.assertTrue(res);
@@ -33,8 +35,8 @@ public class MessageDaoImpTest {
 
     @Test
     public void selectOneByKey() {
-        Message message = MessageDaoImp.getInstance().selectOneByKey(3);
-        Assert.assertEquals(3,message.getId());
+        Message message = MessageDaoImp.getInstance().selectOneByKey(1);
+        Assert.assertEquals(1,message.getId());
         Printer.message(message);
     }
 

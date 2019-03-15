@@ -15,16 +15,16 @@ import java.util.List;
 @RequestMapping("/messages")
 public class Messages {
     @GetMapping()
-    public List getMessagesList(@RequestAttribute("VerifiedUsername") User user){
+    public List getMessagesList(){
         List<Message> messages = MessageDaoImp.getInstance().selectMany();
         return messages;
     }
 
     @PostMapping()
     public ResponseEntity<HashMap> Message( @RequestBody String content,
-              @RequestAttribute("VerifiedUsername") String username) {
+              @RequestAttribute("VerifiedUsername") User user) {
         Message message = new Message();
-        message.setUsername(username);
+        message.setUsername(user.getUsername());
         content = StringEscapeUtils.escapeHtml4(content);
         message.setContent(content);
         boolean hasInsert = MessageDaoImp.getInstance().insertOne(message);

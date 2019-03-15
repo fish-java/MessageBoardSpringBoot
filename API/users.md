@@ -62,7 +62,7 @@ Status: 200 OK
 ```
 ```json
 {
-  "user_name": "Jack",
+  "username": "Jack",
   "token": "wesfesdfsae"
 }
 ```
