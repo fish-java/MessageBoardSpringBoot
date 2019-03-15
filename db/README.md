@@ -29,5 +29,3 @@ message should has follow fields:
   
 ## SQL
 Also, I add some SQL you may use in future.
-
-`user_name`? because we what this to be more clear.

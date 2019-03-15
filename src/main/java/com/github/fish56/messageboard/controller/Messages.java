@@ -22,7 +22,7 @@ public class Messages {
 
     @PostMapping()
     public ResponseEntity<HashMap> Message( @RequestBody String content,
-            @RequestHeader(value = "username") String username) {
+              @RequestAttribute("VerifiedUsername") String username) {
         Message message = new Message();
         message.setUsername(username);
         content = StringEscapeUtils.escapeHtml4(content);
