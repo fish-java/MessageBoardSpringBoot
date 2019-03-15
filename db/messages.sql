@@ -20,9 +20,10 @@ create table
 ALTER TABLE messages
   Change user_name username char(20);
 
-select * from messages;
+select * from messages
+order by update_datetime desc ;
 
-select id,content,user_name,
+select id,content,username,
        create_datetime,
        update_datetime
 from messages limit 10 offset 2;
@@ -34,6 +35,6 @@ insert into
     'Jon');
 
 select
-  id,content,user_name,update_datetime
+  id,content,username,update_datetime
 from messages
-order by update_datetime limit 10 offset 0;
+order by update_datetime desc limit 10 offset 0;
