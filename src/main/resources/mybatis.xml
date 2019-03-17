@@ -12,9 +12,9 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/message_board"/>
+                <property name="url" value="jdbc:mysql://142.93.21.228:3308/message_board"/>
                 <property name="username" value="root"/>
-                <property name="password" value=""/>
+                <property name="password" value="${Message_board_password}"/>
             </dataSource>
         </environment>
     </environments>
