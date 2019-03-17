@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.github.fish56</groupId>
     <artifactId>message-board</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -53,6 +53,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>com.github.fish56.messageboard.MessageBoardApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
